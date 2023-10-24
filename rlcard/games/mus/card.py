@@ -2,8 +2,8 @@ from termcolor import colored
 
 class MusCard:
 
-    info = {'suit': ['o', 'c', 'e', 'yb'],
-            'trait': ['a', '1', '2', '3', '4', '5', '6', '7']
+    info = {'suit': ['O', 'C', 'E', 'B'],
+            'trait': ['A', '1', '2', '3', '4', '5', '6', '7']
             }
 
     def __init__(self, suit, trait):
@@ -36,19 +36,21 @@ class MusCard:
         if isinstance(cards, str):
             cards = [cards]
 
-        colors_suits = {"o": "yellow",
-                  "c": "red",
-                  "e": "blue",
-                  "b": "green"}
+        colors_suits = {"O": "yellow",
+                  "C": "red",
+                  "E": "blue",
+                  "B": "green"}
         
-        symbol_suits = {"o": "🥇",
-            "c": "🍷",
-            "e": "🗡️",
-            "b": "🪵"}
+        symbol_suits = {"O": "🥇",
+            "C": "🍷",
+            "E": "🗡️",
+            "B": "🪵"}
         
         
         for i, card in enumerate(cards):
             suit, trait = card.split('-')
+            suit = suit.upper()
+            trait = trait.upper()
 
             print(colored(trait, colors_suits[suit]), end=' ')
             print(symbol_suits[suit], end='')

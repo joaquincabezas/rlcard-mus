@@ -10,6 +10,7 @@ class MusPlayer:
         self.np_random = np_random
         self.player_id = player_id
         self.hand = []
+        self.chickpeas = 0
 
     def get_player_id(self):
         ''' Return the id of the player
