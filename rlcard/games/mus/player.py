@@ -11,6 +11,7 @@ class MusPlayer:
         self.player_id = player_id
         self.hand = []
         self.chickpeas = 0
+        self.mus = None
 
     def get_player_id(self):
         ''' Return the id of the player
