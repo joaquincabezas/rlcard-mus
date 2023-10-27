@@ -45,6 +45,9 @@ class MusRound:
         return None
 
     def descarte(self, players, action):
+        #action here can be a list of four Booleans:
+        # True to keep the card
+        # False to discard
         return None
 
     def grandes(self, dealer, players):
