@@ -1,4 +1,4 @@
-from rlcard.games.mus.card import MusCard as Card
+from rlcard.games.mus import Card
 from rlcard.games.mus import Game
 
 def test_deal():

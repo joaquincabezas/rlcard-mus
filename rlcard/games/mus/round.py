@@ -1,4 +1,3 @@
-from rlcard.games.mus.card import UnoCard
 import numpy as np
 # from rlcard.games.mus.utils import XXXX
 
@@ -18,6 +17,7 @@ class MusRound:
         self.lead_player = np.random.randint(0,1)
         self.current_player = None
         self.players = players
+        self.num_players = len(self.players)
         self.is_over = False
         self.winner = None
         self.lances = ['Grandes'] # ['Mus', 'Descarte', 'Grandes', 'Chicas', 'Pares', 'Juego']
