@@ -3,7 +3,7 @@ from termcolor import colored
 class MusCard:
 
     info = {'suit': ['O', 'C', 'E', 'B'],
-            'trait': ['A', '1', '2', '3', '4', '5', '6', '7']
+            'trait': ['1', '2', '3', '4', '5', '6', '7', 'S', 'C', 'R']
             }
 
     def __init__(self, suit, trait):

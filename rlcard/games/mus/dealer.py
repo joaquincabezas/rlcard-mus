@@ -38,6 +38,8 @@ class MusDealer:
 
             player.hand.append(self.deck.pop())
 
+        player.order_cards()
+
     def receive_returned_cards(self, cards):
         
         if isinstance(cards, str):
