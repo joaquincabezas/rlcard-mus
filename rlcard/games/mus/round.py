@@ -84,7 +84,7 @@ class MusRound:
             elif value[self.players[0].hand[card_index]] < value[self.players[1].hand[card_index]]:
                 return 1
         
-        return self.current_player
+        return self.lead_player
 
     def mus(self, action):
         if action == "mus":
@@ -103,6 +103,7 @@ class MusRound:
 
     def grandes(self, action):
         other_player = (self.current_player + 1) % 1
+
         if action == "paso":
             self.state["bids"][self.current_player] = action
             if self.state["turn"] == 0:
@@ -112,20 +113,24 @@ class MusRound:
                 self.change_player()
                 self.state["turn"] = 0
                 self.lance = self.lance + 1
+
         if action == "envido":
             self.state["bids"][self.current_player] = action
             self.state["ground_bet"] = self.state["ground_bet"] + 1
             self.state["bet"] = 1
             self.change_player()
+
         if action == "veo":
             if self.state["bids"][other_player] == "ordago":
                 self.lance = -1
             else:
                 self.state["ground_bet"] = self.state["ground_bet"] + self.state["bet"]
                 self.next()
+
         if action == "noveo":
             self.state["points"][other_player] += self.state["ground_bet"]
             self.next()
+
         if action == "ordago":
             self.state["bids"][self.current_player] = action
             self.state["ground_bet"] = self.state["ground_bet"] + 1
