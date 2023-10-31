@@ -37,9 +37,9 @@ class MusGame:
 
         # Initialize a Round
         
-        self.round = Round(self.dealer, self.num_players, self.np_random)
+        self.round = Round(self.dealer, self.players, self.np_random)
 
-        self.round.start_new_round(self.players, [0, 0])
+        self.round.start_new_round([0, 0])
 
         # Save the hisory for stepping back to the last state.
         self.history = []
