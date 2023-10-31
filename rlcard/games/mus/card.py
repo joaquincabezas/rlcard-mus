@@ -15,15 +15,15 @@ class MusCard:
         '''
         self.suit = suit
         self.trait = trait
-        self.str = self.get_str()
 
-    def get_str(self):
+    @staticmethod
+    def get_str(card):
         ''' Get the string representation of card
 
         Return:
             (str): The string of card's color and trait
         '''
-        return self.suit + '-' + self.trait
+        return card.suit + '-' + card.trait
 
 
     @staticmethod
