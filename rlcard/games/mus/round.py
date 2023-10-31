@@ -23,6 +23,7 @@ class MusRound:
         self.lances = ['Grandes'] # ['Mus', 'Descarte', 'Grandes', 'Chicas', 'Pares', 'Juego']
         self.lance = 0
         self.haymus = [None for _ in range(self.num_players)]
+        self.state = {}
 
     def change_player(self):
         self.state["current_player"] = (self.state["current_player"] + 1) % 1
