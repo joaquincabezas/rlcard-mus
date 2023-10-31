@@ -1,4 +1,4 @@
-from rlcard.games.mus.card import MusCard as Card
+from rlcard.games.mus import Card
 
 def print_spanish_cards():
 
