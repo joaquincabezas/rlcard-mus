@@ -17,6 +17,8 @@ def test_simple_round():
         print(f'For player number {idx+1}:')
         Card.print_cards([Card.get_str(card) for card in player.hand])
 
+    round.proceed_round("paso")
+    round.proceed_round("envido")
     round.proceed_round("envido")
     game_state = round.proceed_round("veo")
 

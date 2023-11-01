@@ -97,7 +97,7 @@ class MusRound:
 
     def mus(self, action):
         if action == "mus":
-            self.haymus[self.current_player] = 1
+            self.haymus[self.state["current_player"]] = 1
             if self.haymus == [1, 1]:
                 self.state["lance"] = 1
         elif action == "juega":
@@ -111,10 +111,10 @@ class MusRound:
         return None
 
     def grandes(self, action):
-        other_player = (self.current_player + 1) % 2
+        other_player = (self.state["current_player"] + 1) % 2
 
         if action == "paso":
-            self.state["bids"][self.current_player] = action
+            self.state["bids"][self.state["current_player"]] = action
             if self.state["turn"] == 0:
                 self.change_player()
                 self.state["turn"] = 1
@@ -124,7 +124,7 @@ class MusRound:
                 self.state["lance"] = self.state["lance"] + 1
 
         if action == "envido":
-            self.state["bids"][self.current_player] = action
+            self.state["bids"][self.state["current_player"]] = action
             self.state["ground_bet"] = self.state["ground_bet"] + 1
             self.state["bet"] = 1
             self.state["turn"] = self.state["turn"] + 1
@@ -142,7 +142,7 @@ class MusRound:
             self.next()
 
         if action == "ordago":
-            self.state["bids"][self.current_player] = action
+            self.state["bids"][self.state["current_player"]] = action
             self.state["ground_bet"] = self.state["ground_bet"] + 1
             self.change_player()
 
@@ -177,6 +177,8 @@ class MusRound:
             return ['envido', 'ordago', 'veo', 'noveo']
         elif self.state["bids"][other_player] == "ordago":
             return ['veo', 'noveo']
+        
+        return []
 
     
     def get_state(self):
