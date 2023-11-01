@@ -19,7 +19,14 @@ def test_simple_round():
 
     round.proceed_round("paso")
     round.proceed_round("envido")
-    round.proceed_round("envido")
     game_state = round.proceed_round("veo")
 
+    assert game_state["current_gameplay"] == Round.CHICAS
+
+    round.proceed_round("paso")
+    games_state = round.proceed_round("paso")
+
+    assert game_state["current_gameplay"] == Round.PARES
     assert game_state["roundover"] == True
+
+

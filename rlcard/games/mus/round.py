@@ -27,7 +27,7 @@ class MusRound:
         self.num_players = len(self.players)
         self.is_over = False
         self.winner = None
-        self.gameplay_names = ['Mus', 'Descartes', 'Grandes', 'Chicas', 'Pares', 'Juego']
+        self.gameplay_names = ['Mus', 'Descartes', 'Grandes', 'Chicas', 'Pares', 'Juego', 'Punto']
         self.current_gameplay = self.GRANDES # Temporarily start with GRANDES
         self.haymus = [None for _ in range(self.num_players)]
         self.state = {}
@@ -62,13 +62,10 @@ class MusRound:
         if action not in self.get_legal_actions():
             raise ValueError("Action %s is not allowed", action)
 
-        if self.state["current_gameplay"] == self.GRANDES:
-            self.gameplay(action)
-            if 1: # Temporarily evaluate all gameplays
-                self.evaluate()
-            return self.state
+        self.gameplay(action)
 
-        self.evaluate()
+        if self.state["current_gameplay"] > self.CHICAS:
+            self.evaluate()
 
         return self.state
     
