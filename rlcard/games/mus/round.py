@@ -4,6 +4,13 @@ import numpy as np
 
 class MusRound:
 
+    MUS = 0
+    DESCARTE = 1
+    GRANDES = 2
+    CHICAS = 3
+    PARES = 4
+    JUEGO = 5
+
     def __init__(self, dealer, players, np_random):
         ''' Initialize the round class
 
@@ -20,16 +27,16 @@ class MusRound:
         self.num_players = len(self.players)
         self.is_over = False
         self.winner = None
-        self.lances = ['Grandes'] # ['Mus', 'Descarte', 'Grandes', 'Chicas', 'Pares', 'Juego']
-        self.lance = 0
+        self.gameplay_names = ['Mus', 'Descartes', 'Grandes', 'Chicas', 'Pares', 'Juego']
+        self.current_gameplay = self.GRANDES # Temporarily start with GRANDES
         self.haymus = [None for _ in range(self.num_players)]
         self.state = {}
         
 
-    def change_player(self):
+    def next_player(self):
         self.state["current_player"] = (self.state["current_player"] + 1) % 2
 
-    def change_lead_player(self):
+    def change_to_lead_player(self):
         self.state["current_player"] = self.state["lead_player"]
 
     def start_new_round(self, points):
@@ -40,9 +47,9 @@ class MusRound:
         
         self.state["turn"] = 0
         self.state["current_player"] = self.current_player
-        self.state["lance"] = self.lance
+        self.state["current_gameplay"] = self.current_gameplay
         self.state["bids"] = [None for i in self.players]
-        self.state["bet"] = 0
+        self.state["bet"] = [0, 0, 0, 0]
         self.state["ground_bet"] = 0
         self.state["points"] = points
         self.state["lead_player"] = self.lead_player
@@ -55,21 +62,13 @@ class MusRound:
         if action not in self.get_legal_actions():
             raise ValueError("Action %s is not allowed", action)
 
-        if self.state["lance"] == 0:
-            self.grandes(action)
-            if self.state["lance"] != 0:
+        if self.state["current_gameplay"] == self.GRANDES:
+            self.gameplay(action)
+            if 1: # Temporarily evaluate all gameplays
                 self.evaluate()
             return self.state
 
         self.evaluate()
-        # if self.state["lance"] == 0:
-        #     self.mus(action)
-        # elif self.state["lance"] == 1:
-        #     self.descarte(action)
-        # elif self.state["lance"] == 2:
-        #     self.grandes(action)
-        # elif self.state["lance"] == 3:
-        #     self.evaluate()
 
         return self.state
     
@@ -94,6 +93,21 @@ class MusRound:
                 return 1
         
         return self.lead_player
+    
+    def evaluate_chicas(self):
+        value = {'R': 10, '3': 10, 'C': 9, 'S': 8,
+                 '7': 7, '6': 6, '5': 5, '4': 4,
+                 '2': 1, '1': 1}
+        
+        # Assumes cards are ordered
+        
+        for card_index in [3,2,1,0]:
+            if value[self.players[0].hand[card_index].trait] < value[self.players[1].hand[card_index].trait]:
+                return 0
+            elif value[self.players[0].hand[card_index].trait] > value[self.players[1].hand[card_index].trait]:
+                return 1
+        
+        return self.lead_player
 
     def mus(self, action):
         if action == "mus":
@@ -101,7 +115,7 @@ class MusRound:
             if self.haymus == [1, 1]:
                 self.state["lance"] = 1
         elif action == "juega":
-            self.state["lance"] = 2
+            self.state["current_gameplay"] = 0
         return None
 
     def descarte(self, action):
@@ -110,31 +124,32 @@ class MusRound:
         # False to discard
         return None
 
-    def grandes(self, action):
+    def gameplay(self, action):
         other_player = (self.state["current_player"] + 1) % 2
 
         if action == "paso":
             self.state["bids"][self.state["current_player"]] = action
             if self.state["turn"] == 0:
-                self.change_player()
+                self.next_player()
                 self.state["turn"] = 1
             else:
-                self.change_player()
+                self.next_player()
                 self.state["turn"] = 0
-                self.state["lance"] = self.state["lance"] + 1
+                self.state["current_gameplay"] = self.state["current_gameplay"] + 1
 
         if action == "envido":
             self.state["bids"][self.state["current_player"]] = action
             self.state["ground_bet"] = self.state["ground_bet"] + 1
-            self.state["bet"] = 1
+            self.state["lift_bet"] = 1
             self.state["turn"] = self.state["turn"] + 1
-            self.change_player()
+            self.next_player()
 
         if action == "veo":
             if self.state["bids"][other_player] == "ordago":
-                self.state["lance"] = -1
+                self.state["current_gameplay"] = -1
             else:
-                self.state["ground_bet"] = self.state["ground_bet"] + self.state["bet"]
+                self.state["ground_bet"] = self.state["ground_bet"] + self.state["lift_bet"]
+                self.state["bet"][self.state["current_gameplay"]-2] = self.state["ground_bet"]
                 self.next()
 
         if action == "noveo":
@@ -144,15 +159,16 @@ class MusRound:
         if action == "ordago":
             self.state["bids"][self.state["current_player"]] = action
             self.state["ground_bet"] = self.state["ground_bet"] + 1
-            self.change_player()
-
+            self.next_player()
+    
 
     def next(self):
-        self.change_lead_player()
+        self.change_to_lead_player()
         self.state["bids"]= [0, 0]
-        self.state["bet"] = 0
+        self.state["ground_bet"] = 0
+        self.state["lift_bet"] = 0
         self.state["turn"] = 0
-        self.state["lance"] = self.state["lance"] + 1
+        self.state["current_gameplay"] = self.state["current_gameplay"] + 1
 
 
     def get_legal_actions(self):
@@ -163,7 +179,7 @@ class MusRound:
            (list):  A list of legal actions
         """
 
-        if self.state["lance"] == 'Mus':
+        if self.state["current_gameplay"] == self.MUS:
             return ['mus', 'juega']
         
         if self.state["turn"] == 0:
