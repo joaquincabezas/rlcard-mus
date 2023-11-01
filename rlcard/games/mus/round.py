@@ -56,6 +56,8 @@ class MusRound:
         self.state["current_player"] = self.lead_player
         self.state["roundover"] = False
 
+        return self.state
+
 
     def proceed_round(self, action):
 

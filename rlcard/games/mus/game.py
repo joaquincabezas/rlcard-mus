@@ -39,13 +39,13 @@ class MusGame:
         
         self.round = Round(self.dealer, self.players, self.np_random)
 
-        self.round.start_new_round([0, 0])
+        state = self.round.start_new_round([0, 0])
 
         # Save the hisory for stepping back to the last state.
         self.history = []
 
-        player_id = None # TBD
-        state = None # TBD
+        player_id = state["current_player"]
+
         return state, player_id
 
     def step(self, action):
@@ -61,16 +61,16 @@ class MusGame:
                 (int): next plater's id
         '''
 
-        if self.allow_step_back:
-            # First snapshot the current state
-            his_dealer = deepcopy(self.dealer)
-            his_round = deepcopy(self.round)
-            his_players = deepcopy(self.players)
-            self.history.append((his_dealer, his_players, his_round))
+        # if self.allow_step_back:
+        #     # First snapshot the current state
+        #     his_dealer = deepcopy(self.dealer)
+        #     his_round = deepcopy(self.round)
+        #     his_players = deepcopy(self.players)
+        #     self.history.append((his_dealer, his_players, his_round))
 
-        self.round.proceed_round(self.players, action)
-        player_id = self.round.current_player
-        state = None # TBD
+        state = self.round.proceed_round(action)
+        player_id = state["current_player"]
+
         return state, player_id
     
 
