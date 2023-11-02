@@ -107,6 +107,39 @@ class MusRound:
                 return 1
         
         return self.lead_player
+    
+    def check_pairs(self):
+        value =  {'R': 10, '3': 10, 'C': 9, 'S': 8,
+                 '7': 7, '6': 6, '5': 5, '4': 4,
+                 '2': 1, '1': 1}
+        
+        pairs = 0
+        for idx, player in enumerate(self.players):
+            values = [value[player.hand[card_index].trait] for card_index in [0,1,2,3]]
+            if len(values) != len(set(values)):
+                pairs += 1
+        
+        if pairs == 2:
+            return True
+        
+        return False
+    
+    def check_juego(self):
+        value =  {'R': 10, '3': 10, 'C': 9, 'S': 8,
+            '7': 7, '6': 6, '5': 5, '4': 4,
+            '2': 1, '1': 1}
+        
+        juegos = 0
+        for idx, player in enumerate(self.players):
+            points = sum([value[player.hand[card_index].trait] for card_index in [0,1,2,3]])
+            if points >= 31 and points <= 40:
+                juegos += 1
+
+        if juegos == 2:
+            return True
+        
+        return False
+    
 
     def mus(self, action):
         if action == "mus":
