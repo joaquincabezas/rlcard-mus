@@ -114,7 +114,7 @@ class MusRound:
                  '2': 1, '1': 1}
         
         pairs = 0
-        for idx, player in enumerate(self.players):
+        for player in self.players:
             values = [value[player.hand[card_index].trait] for card_index in [0,1,2,3]]
             if len(values) != len(set(values)):
                 pairs += 1
@@ -130,7 +130,7 @@ class MusRound:
             '2': 1, '1': 1}
         
         juegos = 0
-        for idx, player in enumerate(self.players):
+        for player in self.players:
             points = sum([value[player.hand[card_index].trait] for card_index in [0,1,2,3]])
             if points >= 31 and points <= 40:
                 juegos += 1
