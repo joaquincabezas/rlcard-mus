@@ -61,12 +61,12 @@ class MusGame:
                 (int): next plater's id
         '''
 
-        # if self.allow_step_back:
-        #     # First snapshot the current state
-        #     his_dealer = deepcopy(self.dealer)
-        #     his_round = deepcopy(self.round)
-        #     his_players = deepcopy(self.players)
-        #     self.history.append((his_dealer, his_players, his_round))
+        if self.allow_step_back:
+            # First snapshot the current state
+            his_dealer = deepcopy(self.dealer)
+            his_round = deepcopy(self.round)
+            his_players = deepcopy(self.players)
+            self.history.append((his_dealer, his_players, his_round))
 
         state = self.round.proceed_round(action)
         player_id = state["current_player"]
