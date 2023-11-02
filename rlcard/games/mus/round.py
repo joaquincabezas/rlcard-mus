@@ -11,6 +11,10 @@ class MusRound:
     PARES = 4
     JUEGO = 5
 
+    card_value = {'R': 10, '3': 10, 'C': 9, 'S': 8,
+                  '7': 7, '6': 6, '5': 5, '4': 4,
+                  '2': 1, '1': 1}
+
     def __init__(self, dealer, players, np_random):
         ''' Initialize the round class
 
@@ -79,43 +83,33 @@ class MusRound:
         return None
     
     def evaluate_grandes(self):
-        value = {'R': 10, '3': 10, 'C': 9, 'S': 8,
-                 '7': 7, '6': 6, '5': 5, '4': 4,
-                 '2': 1, '1': 1}
+
         
         # Assumes cards are ordered
         
         for card_index in [0,1,2,3]:
-            if value[self.players[0].hand[card_index].trait] > value[self.players[1].hand[card_index].trait]:
+            if self.card_value[self.players[0].hand[card_index].trait] > self.card_value[self.players[1].hand[card_index].trait]:
                 return 0
-            elif value[self.players[0].hand[card_index].trait] < value[self.players[1].hand[card_index].trait]:
+            elif self.card_value[self.players[0].hand[card_index].trait] < self.card_value[self.players[1].hand[card_index].trait]:
                 return 1
         
         return self.lead_player
     
     def evaluate_chicas(self):
-        value = {'R': 10, '3': 10, 'C': 9, 'S': 8,
-                 '7': 7, '6': 6, '5': 5, '4': 4,
-                 '2': 1, '1': 1}
-        
         # Assumes cards are ordered
         
         for card_index in [3,2,1,0]:
-            if value[self.players[0].hand[card_index].trait] < value[self.players[1].hand[card_index].trait]:
+            if self.card_value[self.players[0].hand[card_index].trait] < self.card_value[self.players[1].hand[card_index].trait]:
                 return 0
-            elif value[self.players[0].hand[card_index].trait] > value[self.players[1].hand[card_index].trait]:
+            elif self.card_value[self.players[0].hand[card_index].trait] > self.card_value[self.players[1].hand[card_index].trait]:
                 return 1
         
         return self.lead_player
     
     def check_pairs(self):
-        value =  {'R': 10, '3': 10, 'C': 9, 'S': 8,
-                 '7': 7, '6': 6, '5': 5, '4': 4,
-                 '2': 1, '1': 1}
-        
         pairs = 0
         for player in self.players:
-            values = [value[player.hand[card_index].trait] for card_index in [0,1,2,3]]
+            values = [self.card_value[player.hand[card_index].trait] for card_index in [0,1,2,3]]
             if len(values) != len(set(values)):
                 pairs += 1
         
@@ -125,13 +119,9 @@ class MusRound:
         return False
     
     def check_juego(self):
-        value =  {'R': 10, '3': 10, 'C': 9, 'S': 8,
-            '7': 7, '6': 6, '5': 5, '4': 4,
-            '2': 1, '1': 1}
-        
         juegos = 0
         for player in self.players:
-            points = sum([value[player.hand[card_index].trait] for card_index in [0,1,2,3]])
+            points = sum([self.card_value[player.hand[card_index].trait] for card_index in [0,1,2,3]])
             if points >= 31 and points <= 40:
                 juegos += 1
 
