@@ -10,6 +10,7 @@ class MusRound:
     CHICAS = 3
     PARES = 4
     JUEGO = 5
+    PUNTO = 6
 
     card_value = {'R': 10, '3': 10, 'C': 9, 'S': 8,
                   '7': 7, '6': 6, '5': 5, '4': 4,
@@ -72,6 +73,14 @@ class MusRound:
 
         if self.state["current_gameplay"] > self.CHICAS:
             self.evaluate()
+
+        if self.state["current_gameplay"] == self.PARES:
+            if not self.check_pairs():
+                self.state["current_gameplay"] == self.JUEGO
+        
+        if self.state["current_gameplay"] == self.JUEGO:
+            if not self.check_juego():
+                self.state["current_gameplay"] == self.PUNTO
 
         return self.state
     
