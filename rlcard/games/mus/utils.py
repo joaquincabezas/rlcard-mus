@@ -14,6 +14,6 @@ def init_spanish_deck():
         (list): A list of Card object
     '''
     suit_list = ['O', 'C', 'E', 'B'] # Oros, Copas, Espadas, Bastos
-    rank_list = ['A', '2', '3', '4', '5', '6', '7', 'S', 'C', 'R']
+    rank_list = ['1', '2', '3', '4', '5', '6', '7', 'S', 'C', 'R']
     res = [Card(suit, rank) for suit in suit_list for rank in rank_list]
     return res

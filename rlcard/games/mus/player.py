@@ -25,13 +25,8 @@ class MusPlayer:
         return cards
 
     def order_cards(self):
-        order = ['R', '3', 'C', 'S', '7', '6', '5', '4', '2', '1']
-
-        ordered_hand = []
-
-        for trait in order:
-            for card in self.hand:
-                if card.trait == trait:
-                    ordered_hand.append(card)
-
-        self.hand = ordered_hand
+        card_value = {'R': 10, '3': 10, 'C': 9, 'S': 8,
+                '7': 7, '6': 6, '5': 5, '4': 4,
+                '2': 1, '1': 1}
+        
+        self.hand = sorted(self.hand, key=lambda x: card_value[x.trait])
