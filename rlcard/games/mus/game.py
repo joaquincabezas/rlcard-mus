@@ -13,11 +13,7 @@ class MusGame:
         self.num_players = num_players
         self.players = None
         self.dealer = None
-
-    def configure(self, game_config):
-        ''' Specifiy some game specific parameters, such as number of players
-        '''
-        self.num_players = game_config['game_num_players']
+        self.history = None
 
     def init_game(self):
         ''' Initialize players and state

@@ -15,6 +15,10 @@ class MusRound:
     card_value = {'R': 10, '3': 10, 'C': 9, 'S': 8,
                   '7': 7, '6': 6, '5': 5, '4': 4,
                   '2': 1, '1': 1}
+    
+    card_value_punto = {'R': 10, '3': 10, 'C': 10, 'S': 10,
+            '7': 7, '6': 6, '5': 5, '4': 4,
+            '2': 1, '1': 1}
 
 
     def __init__(self, dealer, players, np_random):
@@ -125,14 +129,10 @@ class MusRound:
         return self.lead_player
     
     def evaluate_juego(self):
-
-        card_value_juego = {'R': 10, '3': 10, 'C': 10, 'S': 10,
-                  '7': 7, '6': 6, '5': 5, '4': 4,
-                  '2': 1, '1': 1}
-        
+      
         juego = [0, 0]
         for idx, _ in enumerate(self.players):
-            juego[idx] = sum([card_value_juego[self.players[idx].hand[card_index].trait] for card_index in [0,1,2,3]])
+            juego[idx] = sum([self.card_value_juego[self.players[idx].hand[card_index].trait] for card_index in [0,1,2,3]])
             
         if juego[0] > juego[1]:
             return 0
@@ -142,13 +142,10 @@ class MusRound:
         return self.lead_player
     
     def evaluate_punto(self):
-        card_value_punto = {'R': 10, '3': 10, 'C': 10, 'S': 10,
-                  '7': 7, '6': 6, '5': 5, '4': 4,
-                  '2': 1, '1': 1}
 
         punto = [0, 0]
         for idx, _ in enumerate(self.players):
-            punto[idx] = sum([card_value_punto[self.players[idx].hand[card_index].trait] for card_index in [0,1,2,3]])
+            punto[idx] = sum([self.card_value_punto[self.players[idx].hand[card_index].trait] for card_index in [0,1,2,3]])
 
         order_punto = {31: 1, 32: 2, 40: 3, 37: 4, 36: 5, 35: 6, 34: 7, 33: 8}
 
@@ -198,7 +195,7 @@ class MusRound:
         # True to keep the card
         # False to discard
         return None
-
+    
     def gameplay(self, action):
         other_player = (self.state["current_player"] + 1) % 2
 
