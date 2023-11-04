@@ -138,8 +138,21 @@ class MusRound:
 
         return self.lead_player
     
-    def evaluate_juego(self):
+    def evaluate_punto(self):
+        card_value_punto = {'R': 10, '3': 10, 'C': 10, 'S': 10,
+                  '7': 7, '6': 6, '5': 5, '4': 4,
+                  '2': 1, '1': 1}
 
+        punto = [0, 0]
+        for idx, _ in enumerate(self.players):
+            punto[idx] = sum([card_value_punto[self.players[idx].hand[card_index].trait] for card_index in [0,1,2,3]])
+
+        order_punto = {31: 1, 32: 2, 40: 3, 37: 4, 36: 5, 35: 6, 34: 7, 33: 8}
+
+        if order_punto[punto[0]] < order_punto[punto[1]]:
+            return 0
+        elif order_punto[punto[0]] > order_punto[punto[1]]:
+            return 1
 
         return self.lead_player
     
