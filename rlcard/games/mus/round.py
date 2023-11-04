@@ -115,6 +115,21 @@ class MusRound:
         
         return self.lead_player
     
+    def evaluate_pares(self):
+
+
+        return self.lead_player
+    
+    def evaluate_juego(self):
+
+
+        return self.lead_player
+    
+    def evaluate_juego(self):
+
+
+        return self.lead_player
+    
     def check_pairs(self):
         pairs = 0
         for player in self.players:
