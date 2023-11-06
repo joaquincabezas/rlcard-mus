@@ -1,3 +1,4 @@
+from collections import Counter
 import numpy as np
 # from rlcard.games.mus.utils import XXXX
 
@@ -123,9 +124,13 @@ class MusRound:
         
         return self.lead_player
     
-    def evaluate_pares(self):
-
-
+    def evaluate_pares(self, winner=None):
+        cards = []
+        for idx, player in enumerate(self.players):
+            cards_cnt = Counter([self.card_value_punto[player.hand[card_index].trait] for card_index in [0,1,2,3]])
+            cards[idx] = cards_cnt.most_common()
+            # TODO
+            
         return self.lead_player
     
     def evaluate_juego(self):
