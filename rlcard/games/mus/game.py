@@ -14,6 +14,7 @@ class MusGame:
         self.players = None
         self.dealer = None
         self.history = None
+        self.is_over = False
 
     def init_game(self):
         ''' Initialize players and state
@@ -66,6 +67,9 @@ class MusGame:
 
         state = self.round.proceed_round(action)
         player_id = state["current_player"]
+
+        if state.is_over == True:
+            self.is_over == True
 
         return state, player_id
     
