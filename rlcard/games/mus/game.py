@@ -68,8 +68,11 @@ class MusGame:
         state = self.round.proceed_round(action)
         player_id = state["current_player"]
 
-        if state.is_over == True:
-            self.is_over == True
+        try:
+            if state["is_over"] == True:
+                self.is_over == True
+        except:
+            self.is_over == False
 
         return state, player_id
     

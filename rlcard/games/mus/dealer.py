@@ -40,6 +40,12 @@ class MusDealer:
 
         player.order_cards()
 
+    def deal_fake_cards(self, cards, player):
+        player.hand = []
+        for card in cards:
+            player.hand.append(card)
+
+
     def receive_returned_cards(self, cards):
         
         if isinstance(cards, str):
