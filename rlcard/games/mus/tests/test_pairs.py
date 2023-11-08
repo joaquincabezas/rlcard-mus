@@ -4,7 +4,7 @@ from rlcard.games.mus import Round
 from rlcard.games.mus import Card
 import numpy as np
 
-def test_pairs():
+def test_pairs_draw():
     
     dealer = Dealer(np.random.RandomState())
 
@@ -24,4 +24,30 @@ def test_pairs():
 
     assert winner == round.lead_player
 
+def test_pairs():
     
+    dealer = Dealer(np.random.RandomState())
+
+    players = [Player(i, np.random.RandomState()) for i in [0,1]]
+
+    round = Round(dealer, players, np.random.RandomState())
+
+    cards = [Card(suit='O', trait='R'),
+             Card(suit='C', trait='R'),
+             Card(suit='E', trait='R'),
+             Card(suit='O', trait='2'),
+             ]
+    
+    dealer.deal_fake_cards(cards, players[0])
+
+    cards = [Card(suit='O', trait='R'),
+             Card(suit='C', trait='R'),
+             Card(suit='E', trait='2'),
+             Card(suit='O', trait='2'),
+             ]
+    
+    dealer.deal_fake_cards(cards, players[1])
+
+    winner = round.evaluate_pares()
+
+    assert winner == 1
