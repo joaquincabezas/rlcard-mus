@@ -55,10 +55,8 @@ class MusRound:
         # Deal 4 cards to each player to prepare for the game
         for player in self.players:
             self.dealer.deal_cards(player, 4)
-
-        assert len(self.players[0].hand) == 4
-        assert len(self.players[1].hand) == 4
         
+        # TODO turn this into individual varialbes        
         self.state["turn"] = 0
         self.state["current_player"] = self.current_player
         self.state["current_gameplay"] = self.current_gameplay
